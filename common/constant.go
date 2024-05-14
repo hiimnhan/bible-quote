@@ -1,4 +1,4 @@
 package common
 
 const KJVPath = "files/kjv.txt"
-const KJVInvertedIndexSavePath = "../static/kjv.json"
+const KJVInvertedIndexSavePath = "files/kjv.json"

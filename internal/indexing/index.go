@@ -1,7 +1,9 @@
 package indexing
 
 import (
+	"encoding/json"
 	"log"
+	"os"
 
 	"github.com/hiimnhan/bible-quote/common"
 )
@@ -30,6 +32,17 @@ func InvertedIndex(cm common.CitationMap) (*Index, error) {
 	return &idx, nil
 }
 
+func (index *Index) SaveToDisk(path string) error {
+	log.Printf("Saving to %s...\n", path)
+	file, err := json.MarshalIndent(&index, "", " ")
+	if err != nil {
+		return err
+	}
+
+	return os.WriteFile(path, file, 0666)
+
+}
+
 func intersection(s1, s2 []string) (is []string) {
 	log.Printf("s1 %s\n", s1)
 	log.Printf("s2 %s\n", s2)
@@ -47,12 +60,12 @@ func intersection(s1, s2 []string) (is []string) {
 	return
 }
 
-func (idx Index) Search(text string) []string {
+func (idx *Index) Search(text string) []string {
 	log.Printf("querying %s\n", text)
 	var res []string
 	for _, token := range common.TokenizeAndFilter(text) {
 		log.Printf("token %s\n", token)
-		if ids, ok := idx[token]; ok {
+		if ids, ok := (*idx)[token]; ok {
 			var ss []string
 			for s := range ids {
 				ss = append(ss, s)

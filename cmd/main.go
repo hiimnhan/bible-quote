@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"time"
@@ -24,6 +26,25 @@ func main() {
 		fmt.Printf("error: %v\n", err)
 		os.Exit(1)
 	}
+	err = index.SaveToDisk(common.KJVInvertedIndexSavePath)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+		os.Exit(1)
+	}
+
+	jsonFile, err := os.Open(common.KJVInvertedIndexSavePath)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+		os.Exit(1)
+	}
+	defer jsonFile.Close()
+
+	bytesVal, err := io.ReadAll(jsonFile)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+		os.Exit(1)
+	}
+	json.Unmarshal(bytesVal, &index)
 
 	var query string
 	flag.StringVar(&query, "q", "god", "search query")

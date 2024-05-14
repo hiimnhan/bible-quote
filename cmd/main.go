@@ -31,7 +31,12 @@ func main() {
 
 	start = time.Now()
 	matchedIDs := index.Search(query)
-	log.Printf("matchedIDs %v\n", matchedIDs)
-	log.Printf("found %d matched in %v\n", len(matchedIDs), time.Since(start))
+	duration := time.Since(start)
+
+	for _, id := range matchedIDs {
+		fmt.Println(cm[id].String())
+
+	}
+	log.Printf("found %d matched in %v\n", len(matchedIDs), duration)
 
 }

@@ -4,8 +4,6 @@ import (
 	"log"
 
 	"github.com/hiimnhan/bible-quote/common"
-	"github.com/kylelemons/godebug/pretty"
-	// "github.com/kylelemons/godebug/pretty"
 )
 
 type Set map[string]bool
@@ -19,14 +17,13 @@ func InvertedIndex(cm common.CitationMap) (*Index, error) {
 		for _, token := range common.TokenizeAndFilter(v.Text) {
 			set := idx[token]
 			if set == nil {
-				set = Set{}
+				set = make(Set)
 			}
 			if set[v.ID] {
 				continue
 			}
 			set[v.ID] = true
 			idx[token] = set
-			pretty.Print(token, set)
 		}
 	}
 

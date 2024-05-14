@@ -89,5 +89,5 @@ func serializeCitation(line string) (Citation, error) {
 }
 
 func (c *Citation) String() string {
-	return fmt.Sprintf("King James Bible, %s %d:%d\n\n%s", c.Book, c.Chapter, c.Verse, c.Text)
+	return fmt.Sprintf("King James Bible, %s %d:%d\n%s\n\n", c.Book, c.Chapter, c.Verse, c.Text)
 }
